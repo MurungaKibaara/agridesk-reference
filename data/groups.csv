@@ -1,0 +1,247 @@
+group_id,group_name,site_id,formed_date
+G-0001,Duterimbere Collective,S-001,2023-06-30
+G-0002,Baraka Growers,S-001,2023-01-20
+G-0003,Riziki Growers,S-001,2024-04-07
+G-0004,Nguvu Collective,S-001,2024-08-01
+G-0005,Ushirika Growers,S-002,2023-11-10
+G-0006,Mavuno Growers,S-002,2024-12-29
+G-0007,Neema Collective,S-002,2024-05-29
+G-0008,Subira Collective,S-002,2024-11-12
+G-0009,Twiyubake Growers,S-002,2024-10-18
+G-0010,Chapa Kazi Farmers Group,S-003,2024-06-04
+G-0011,Icyerekezo Farmers Group,S-003,2024-01-09
+G-0012,Vumilia Cooperative,S-003,2023-02-04
+G-0013,Imani Collective,S-003,2024-08-08
+G-0014,Bidii Farmers Group,S-003,2024-10-19
+G-0015,Shirikisho Farmers Group,S-003,2023-07-09
+G-0016,Icyerekezo Collective,S-003,2025-04-06
+G-0017,Duterimbere Cooperative,S-004,2025-02-19
+G-0018,Bidii Cooperative,S-004,2023-12-03
+G-0019,Chapa Kazi Collective,S-004,2024-02-29
+G-0020,Subira Union,S-004,2023-05-23
+G-0021,Juhudi Cooperative,S-004,2024-05-31
+G-0022,Mavuno Cooperative,S-004,2023-05-14
+G-0023,Mavuno Growers,S-004,2024-04-08
+G-0024,Mavuno Self Help Group,S-005,2023-09-01
+G-0025,Vumilia Collective,S-005,2025-03-29
+G-0026,Bidii Farmers Group,S-005,2023-04-14
+G-0027,Juhudi Union,S-005,2025-02-17
+G-0028,Ushirika Self Help Group,S-005,2023-11-20
+G-0029,Icyerekezo Self Help Group,S-005,2023-02-26
+G-0030,Jitegemee Collective,S-005,2023-11-26
+G-0031,Vumilia Self Help Group,S-005,2023-07-31
+G-0032,Riziki Self Help Group,S-006,2025-04-04
+G-0033,Imani Self Help Group,S-006,2023-02-10
+G-0034,Mavuno Growers,S-006,2025-01-02
+G-0035,Nguvu Self Help Group,S-006,2023-06-13
+G-0036,Terimbere Cooperative,S-006,2024-12-17
+G-0037,Amani Farmers Group,S-006,2023-07-20
+G-0038,Mavuno Farmers Group,S-006,2024-03-11
+G-0039,Mwangaza Collective,S-006,2023-09-29
+G-0040,Bidii Collective,S-007,2023-01-05
+G-0041,Vumilia Cooperative,S-007,2024-01-28
+G-0042,Ushirika Union,S-007,2025-02-02
+G-0043,Maendeleo Collective,S-007,2023-03-16
+G-0044,Twiyubake Union,S-007,2024-06-12
+G-0045,Shirikisho Union,S-007,2024-06-11
+G-0046,Terimbere Collective,S-007,2025-03-03
+G-0047,Imani Union,S-007,2023-09-26
+G-0048,Juhudi Farmers Group,S-008,2023-06-04
+G-0049,Neema Self Help Group,S-008,2024-10-09
+G-0050,Kwetu Collective,S-008,2023-03-16
+G-0051,Neema Collective,S-008,2024-02-14
+G-0052,Riziki Collective,S-008,2024-08-05
+G-0053,Icyerekezo Cooperative,S-008,2024-06-10
+G-0054,Mwangaza Self Help Group,S-009,2024-09-25
+G-0055,Shirikisho Growers,S-009,2025-05-29
+G-0056,Tumaini Growers,S-009,2024-10-26
+G-0057,Mwangaza Growers,S-009,2024-08-03
+G-0058,Faraja Cooperative,S-009,2023-12-11
+G-0059,Duterimbere Cooperative,S-009,2025-01-03
+G-0060,Maendeleo Growers,S-009,2024-12-09
+G-0061,Twiyubake Union,S-010,2025-05-21
+G-0062,Tumaini Self Help Group,S-010,2024-08-27
+G-0063,Terimbere Farmers Group,S-010,2023-07-10
+G-0064,Faraja Growers,S-010,2024-04-05
+G-0065,Baraka Union,S-010,2024-01-29
+G-0066,Subira Union,S-010,2023-06-21
+G-0067,Tumaini Farmers Group,S-011,2024-08-07
+G-0068,Maendeleo Union,S-011,2025-04-23
+G-0069,Nguvu Self Help Group,S-011,2023-08-03
+G-0070,Ushirika Growers,S-011,2024-04-22
+G-0071,Ushirika Cooperative,S-011,2023-07-27
+G-0072,Duterimbere Collective,S-011,2025-03-26
+G-0073,Subira Collective,S-011,2024-10-08
+G-0074,Umoja Self Help Group,S-012,2023-04-15
+G-0075,Imani Union,S-012,2024-08-10
+G-0076,Riziki Union,S-012,2023-08-23
+G-0077,Bidii Collective,S-012,2024-09-17
+G-0078,Riziki Union,S-012,2023-12-06
+G-0079,Riziki Union,S-013,2023-11-13
+G-0080,Subira Growers,S-013,2023-07-05
+G-0081,Ushirika Collective,S-013,2024-08-24
+G-0082,Faraja Cooperative,S-013,2024-11-18
+G-0083,Abadahigwa Collective,S-013,2023-12-28
+G-0084,Juhudi Collective,S-014,2025-02-12
+G-0085,Amani Farmers Group,S-014,2023-11-21
+G-0086,Twiyubake Growers,S-014,2024-06-27
+G-0087,Mavuno Growers,S-014,2024-06-27
+G-0088,Tumaini Collective,S-014,2024-01-12
+G-0089,Bidii Self Help Group,S-014,2024-01-20
+G-0090,Bidii Union,S-014,2023-11-03
+G-0091,Subira Self Help Group,S-015,2025-02-13
+G-0092,Bidii Collective,S-015,2025-01-27
+G-0093,Neema Self Help Group,S-015,2024-05-31
+G-0094,Bidii Union,S-015,2024-05-08
+G-0095,Subira Growers,S-015,2023-12-10
+G-0096,Nguvu Cooperative,S-015,2023-03-31
+G-0097,Kwetu Cooperative,S-016,2024-11-26
+G-0098,Jitegemee Growers,S-016,2025-04-28
+G-0099,Chapa Kazi Growers,S-016,2023-06-15
+G-0100,Kwetu Farmers Group,S-016,2025-03-30
+G-0101,Tumaini Collective,S-016,2025-01-16
+G-0102,Icyerekezo Union,S-016,2024-05-07
+G-0103,Bidii Union,S-016,2024-03-02
+G-0104,Shirikisho Self Help Group,S-016,2024-03-29
+G-0105,Ushirika Self Help Group,S-017,2024-01-30
+G-0106,Twiyubake Collective,S-017,2023-11-09
+G-0107,Terimbere Farmers Group,S-017,2024-07-25
+G-0108,Juhudi Collective,S-017,2025-03-04
+G-0109,Jitegemee Farmers Group,S-017,2023-09-24
+G-0110,Juhudi Self Help Group,S-018,2024-10-13
+G-0111,Mavuno Cooperative,S-018,2024-05-10
+G-0112,Twiyubake Farmers Group,S-018,2025-04-11
+G-0113,Bidii Collective,S-018,2023-03-05
+G-0114,Riziki Self Help Group,S-018,2023-12-08
+G-0115,Bidii Union,S-018,2025-01-08
+G-0116,Maendeleo Union,S-019,2024-01-04
+G-0117,Neema Union,S-019,2024-09-27
+G-0118,Baraka Union,S-019,2024-01-09
+G-0119,Mwangaza Cooperative,S-019,2025-04-06
+G-0120,Duterimbere Cooperative,S-019,2024-04-11
+G-0121,Amani Growers,S-019,2024-10-10
+G-0122,Ushirika Self Help Group,S-019,2023-06-14
+G-0123,Chapa Kazi Growers,S-020,2024-01-04
+G-0124,Abadahigwa Growers,S-020,2023-01-14
+G-0125,Duterimbere Farmers Group,S-020,2025-03-30
+G-0126,Neema Collective,S-020,2024-06-28
+G-0127,Twiyubake Cooperative,S-020,2024-03-11
+G-0128,Duterimbere Cooperative,S-021,2024-08-25
+G-0129,Amani Cooperative,S-021,2023-02-06
+G-0130,Neema Self Help Group,S-021,2023-01-29
+G-0131,Terimbere Growers,S-021,2024-01-27
+G-0132,Vumilia Collective,S-022,2023-01-30
+G-0133,Maendeleo Growers,S-022,2024-08-21
+G-0134,Umoja Union,S-022,2023-05-15
+G-0135,Icyerekezo Farmers Group,S-022,2024-07-19
+G-0136,Imani Cooperative,S-023,2023-09-06
+G-0137,Tumaini Self Help Group,S-023,2023-12-15
+G-0138,Nguvu Collective,S-023,2024-08-24
+G-0139,Shirikisho Self Help Group,S-023,2024-12-08
+G-0140,Mwangaza Self Help Group,S-023,2023-06-04
+G-0141,Faraja Collective,S-023,2025-05-16
+G-0142,Kwetu Self Help Group,S-024,2023-06-12
+G-0143,Twiyubake Growers,S-024,2023-10-13
+G-0144,Twiyubake Cooperative,S-024,2023-06-23
+G-0145,Subira Collective,S-024,2023-06-28
+G-0146,Tumaini Union,S-024,2023-12-08
+G-0147,Jitegemee Collective,S-024,2025-02-15
+G-0148,Maendeleo Growers,S-024,2023-01-20
+G-0149,Imani Cooperative,S-024,2023-05-07
+G-0150,Neema Cooperative,S-025,2025-02-03
+G-0151,Baraka Self Help Group,S-025,2023-04-04
+G-0152,Imani Self Help Group,S-025,2024-02-25
+G-0153,Nguvu Farmers Group,S-025,2023-07-27
+G-0154,Faraja Union,S-025,2024-03-22
+G-0155,Baraka Cooperative,S-026,2023-07-17
+G-0156,Nguvu Collective,S-026,2023-10-09
+G-0157,Subira Growers,S-026,2024-12-14
+G-0158,Umoja Self Help Group,S-026,2024-02-12
+G-0159,Tumaini Growers,S-026,2025-03-01
+G-0160,Mavuno Cooperative,S-026,2025-05-24
+G-0161,Jitegemee Farmers Group,S-026,2023-09-07
+G-0162,Faraja Self Help Group,S-027,2024-11-15
+G-0163,Baraka Growers,S-027,2023-09-01
+G-0164,Faraja Growers,S-027,2023-10-31
+G-0165,Vumilia Cooperative,S-027,2023-08-14
+G-0166,Shirikisho Self Help Group,S-027,2025-03-05
+G-0167,Maendeleo Union,S-027,2023-06-29
+G-0168,Imani Union,S-027,2024-02-07
+G-0169,Imani Farmers Group,S-028,2024-11-17
+G-0170,Maendeleo Farmers Group,S-028,2025-03-17
+G-0171,Jitegemee Growers,S-028,2025-04-02
+G-0172,Amani Farmers Group,S-028,2024-05-28
+G-0173,Twiyubake Self Help Group,S-028,2023-11-12
+G-0174,Riziki Self Help Group,S-028,2024-02-16
+G-0175,Riziki Cooperative,S-028,2023-12-31
+G-0176,Mwangaza Union,S-028,2023-01-11
+G-0177,Tumaini Self Help Group,S-029,2024-01-19
+G-0178,Imani Collective,S-029,2024-12-05
+G-0179,Juhudi Collective,S-029,2023-05-29
+G-0180,Vumilia Cooperative,S-029,2023-05-10
+G-0181,Neema Union,S-029,2025-04-09
+G-0182,Subira Self Help Group,S-030,2023-01-23
+G-0183,Twiyubake Collective,S-030,2024-11-09
+G-0184,Chapa Kazi Cooperative,S-030,2023-05-19
+G-0185,Imani Collective,S-030,2025-05-20
+G-0186,Shirikisho Cooperative,S-030,2024-06-26
+G-0187,Baraka Self Help Group,S-030,2024-04-07
+G-0188,Mavuno Cooperative,S-031,2025-01-13
+G-0189,Neema Union,S-031,2023-10-15
+G-0190,Vumilia Farmers Group,S-031,2023-11-30
+G-0191,Shirikisho Self Help Group,S-031,2024-05-23
+G-0192,Kwetu Collective,S-031,2025-04-21
+G-0193,Imani Farmers Group,S-031,2024-03-25
+G-0194,Bidii Self Help Group,S-031,2025-05-21
+G-0195,Twiyubake Farmers Group,S-032,2024-07-27
+G-0196,Shirikisho Self Help Group,S-032,2025-06-12
+G-0197,Subira Collective,S-032,2025-05-27
+G-0198,Subira Collective,S-032,2023-03-26
+G-0199,Twiyubake Farmers Group,S-033,2024-01-10
+G-0200,Maendeleo Collective,S-033,2023-12-18
+G-0201,Abadahigwa Growers,S-033,2024-06-22
+G-0202,Twiyubake Growers,S-033,2024-12-11
+G-0203,Mwangaza Farmers Group,S-034,2023-04-23
+G-0204,Neema Growers,S-034,2024-05-26
+G-0205,Riziki Self Help Group,S-034,2023-12-31
+G-0206,Icyerekezo Self Help Group,S-034,2025-03-01
+G-0207,Vumilia Growers,S-035,2023-03-30
+G-0208,Mwangaza Farmers Group,S-035,2024-09-22
+G-0209,Bidii Self Help Group,S-035,2024-06-13
+G-0210,Umoja Farmers Group,S-035,2025-01-18
+G-0211,Chapa Kazi Farmers Group,S-036,2023-04-13
+G-0212,Abadahigwa Union,S-036,2024-11-14
+G-0213,Twiyubake Cooperative,S-036,2024-08-14
+G-0214,Bidii Self Help Group,S-036,2023-06-05
+G-0215,Maendeleo Growers,S-036,2023-07-12
+G-0216,Subira Farmers Group,S-036,2025-05-16
+G-0217,Mavuno Collective,S-036,2024-12-15
+G-0218,Ushirika Farmers Group,S-037,2025-06-08
+G-0219,Maendeleo Union,S-037,2025-06-02
+G-0220,Kwetu Farmers Group,S-037,2023-04-19
+G-0221,Faraja Self Help Group,S-037,2023-01-24
+G-0222,Juhudi Growers,S-037,2023-05-27
+G-0223,Bidii Collective,S-037,2024-12-07
+G-0224,Imani Growers,S-038,2023-08-25
+G-0225,Riziki Union,S-038,2025-03-27
+G-0226,Mwangaza Collective,S-038,2024-04-16
+G-0227,Jitegemee Cooperative,S-038,2024-12-05
+G-0228,Faraja Collective,S-038,2023-10-15
+G-0229,Terimbere Collective,S-038,2023-04-12
+G-0230,Nguvu Cooperative,S-039,2025-05-26
+G-0231,Faraja Farmers Group,S-039,2023-12-20
+G-0232,Mwangaza Self Help Group,S-039,2024-04-23
+G-0233,Vumilia Union,S-039,2024-05-26
+G-0234,Abadahigwa Cooperative,S-040,2023-08-14
+G-0235,Shirikisho Collective,S-040,2023-04-13
+G-0236,Ushirika Collective,S-040,2024-05-16
+G-0237,Terimbere Farmers Group,S-040,2023-07-15
+G-0238,Mavuno Self Help Group,S-040,2024-06-11
+G-0239,Subira Cooperative,S-040,2024-12-29
+G-0240,Tumaini Growers,S-040,2023-06-02
+G-0241,Maendeleo Collective,S-041,2023-11-27
+G-0242,Umoja Farmers Group,S-041,2025-01-19
+G-0243,Amani Growers,S-041,2023-02-25
+G-0244,Tumaini Growers,S-041,2024-05-18
+G-0245,Ushirika Farmers Group,S-041,2024-10-26
+G-0246,Vumilia Growers,S-041,2024-11-08

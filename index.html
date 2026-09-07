@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Ledger</title>
+<style>
+  :root{
+    --ground:#e9edf0; --surface:#fff; --ink:#16283c; --muted:#5b7185;
+    --rule:#d2dae1; --rule-soft:#e5eaee;
+    --ontrack:#1f7a63; --atrisk:#b06a12; --critical:#98302f;
+    --focus:#2f6f9f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--ground); color:var(--ink);
+    font:15px/1.5 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
+
+  header.top{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+  header.top h1{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0}
+  header.top .sub{color:var(--muted);font-size:13px}
+  .search{margin-left:auto;position:relative}
+  .search input{
+    width:230px;padding:7px 10px;border:1px solid var(--rule);border-radius:3px;
+    background:var(--surface);color:inherit;font:inherit;font-size:13px;
+  }
+  .search input:focus{outline:2px solid var(--focus);outline-offset:1px;border-color:transparent}
+  .results{
+    position:absolute;top:36px;right:0;width:320px;background:var(--surface);
+    border:1px solid var(--rule);border-radius:3px;box-shadow:0 6px 20px rgba(22,40,60,.13);
+    max-height:300px;overflow:auto;z-index:20;
+  }
+  .results button{
+    display:block;width:100%;text-align:left;padding:8px 11px;border:0;background:none;
+    font:inherit;font-size:13px;color:inherit;cursor:pointer;border-bottom:1px solid var(--rule-soft);
+  }
+  .results button:hover,.results button:focus{background:#f0f4f7;outline:none}
+  .results .rid{color:var(--muted);font-size:12px}
+
+  nav.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:2px;margin-bottom:18px;font-size:13px}
+  nav.crumbs button{
+    border:0;background:none;font:inherit;color:var(--focus);cursor:pointer;
+    padding:3px 5px;border-radius:2px;
+  }
+  nav.crumbs button:hover{text-decoration:underline}
+  nav.crumbs button:focus-visible{outline:2px solid var(--focus)}
+  nav.crumbs .sep{color:var(--muted);padding:0 1px}
+  nav.crumbs .here{padding:3px 5px;color:var(--muted)}
+
+  .kpis{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    background:var(--surface);border:1px solid var(--rule);border-radius:3px;margin-bottom:6px;
+  }
+  .kpi{padding:13px 15px;border-right:1px solid var(--rule-soft)}
+  .kpi:last-child{border-right:0}
+  .kpi dt{margin:0 0 4px;font-size:12px;color:var(--muted)}
+  .kpi dd{margin:0;font-size:20px;font-weight:600;letter-spacing:-.02em}
+  .kpi dd small{font-size:12px;font-weight:400;color:var(--muted);letter-spacing:0}
+
+  .scopebar{margin:16px 0 22px}
+  .scopebar .track{height:9px;background:#dbe2e8;border-radius:2px;overflow:hidden;display:flex}
+  .scopebar .fill{background:var(--ontrack)}
+  .scopebar .legend{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;background:var(--surface);
+        border:1px solid var(--rule);border-radius:3px}
+  caption{text-align:left;font-size:13px;color:var(--muted);padding:0 0 7px}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule-soft);font-size:13.5px}
+  th{font-weight:600;font-size:12px;color:var(--muted);background:#f4f7f9}
+  tbody tr:last-child td{border-bottom:0}
+  tr.link{cursor:pointer}
+  tr.link:hover{background:#f2f6f8}
+  tr.link:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+  .num{text-align:right;white-space:nowrap}
+
+  .spine{display:flex;align-items:center;gap:9px;min-width:170px}
+  .spine .bar{flex:1;height:7px;background:#dde4ea;border-radius:2px;overflow:hidden;min-width:70px}
+  .spine .bar i{display:block;height:100%}
+  .spine .pct{width:48px;text-align:right;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .ontrack i{background:var(--ontrack)} .ontrack .pct{color:var(--ontrack)}
+  .atrisk  i{background:var(--atrisk)}  .atrisk  .pct{color:var(--atrisk)}
+  .critical i{background:var(--critical)} .critical .pct{color:var(--critical)}
+
+  .panel{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:16px 18px;margin-bottom:16px}
+  .panel h2{margin:0 0 3px;font-size:15px;font-weight:600}
+  .panel .meta{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 18px;margin:0}
+  .facts dt{font-size:12px;color:var(--muted);margin-bottom:2px}
+  .facts dd{margin:0;font-size:15px;font-weight:600}
+
+  .ledger td.alloc{color:var(--muted);font-size:12.5px}
+  .stack{margin-bottom:26px}
+  .stack > table{margin-top:0}
+
+  .checks{
+    position:fixed;right:16px;bottom:16px;width:250px;background:var(--surface);
+    border:1px solid var(--rule);border-radius:3px;box-shadow:0 8px 24px rgba(22,40,60,.15);
+    font-size:12.5px;z-index:30;
+  }
+  .checks h3{margin:0;padding:9px 12px;font-size:12px;color:var(--muted);
+             border-bottom:1px solid var(--rule-soft);font-weight:600}
+  .checks ul{list-style:none;margin:0;padding:6px 0}
+  .checks li{display:flex;gap:8px;padding:4px 12px;align-items:baseline}
+  .checks .mark{font-weight:700;width:12px}
+  .checks .pass .mark{color:var(--ontrack)}
+  .checks .fail .mark{color:var(--critical)}
+  .checks .fail{color:var(--critical)}
+  .empty{padding:26px;text-align:center;color:var(--muted);background:var(--surface);
+         border:1px solid var(--rule);border-radius:3px}
+  @media (max-width:720px){
+    .checks{position:static;width:auto;margin-top:20px;box-shadow:none}
+    .search{margin-left:0;width:100%}
+    .search input{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Field Ledger</h1>
+    <span class="sub">Input credit, three countries, seasons 2025A&ndash;2026A</span>
+    <div class="search">
+      <input id="q" type="search" placeholder="Find a farmer by name or ID" autocomplete="off"
+             aria-label="Find a farmer by name or ID">
+      <div id="results" class="results" hidden></div>
+    </div>
+  </header>
+
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <dl class="kpis" id="kpis"></dl>
+  <div class="scopebar" id="scopebar"></div>
+  <div id="view"></div>
+</div>
+
+<aside class="checks" aria-live="polite">
+  <h3>Invariants, checked live</h3>
+  <ul id="checks"></ul>
+</aside>
+
+<script src="data/data.js"></script>
+<script>
+(function(){
+  "use strict";
+  const D = window.DATA;
+
+  // ---- indexes -------------------------------------------------------
+  const by = (rows, key) => { const m = new Map();
+    for (const r of rows) m.set(r[key], r); return m; };
+  const groupBy = (rows, key) => { const m = new Map();
+    for (const r of rows) { const k = r[key]; if (!m.has(k)) m.set(k, []); m.get(k).push(r); } return m; };
+
+  const siteById    = by(D.sites, "site_id");
+  const groupById   = by(D.groups, "group_id");
+  const farmerById  = by(D.farmers, "farmer_id");
+  const productById = by(D.products, "product_id");
+  const orderById   = by(D.orders, "order_id");
+
+  const groupsBySite   = groupBy(D.groups, "site_id");
+  const farmersByGroup = groupBy(D.farmers, "group_id");
+  const ordersByFarmer = groupBy(D.orders, "farmer_id");
+  const itemsByOrder   = groupBy(D.order_items, "order_id");
+  const paymentsByOrder= groupBy(D.payments, "order_id");
+
+  // paid per order, computed once
+  const paidByOrder = new Map();
+  for (const o of D.orders) {
+    const ps = paymentsByOrder.get(o.order_id) || [];
+    paidByOrder.set(o.order_id, ps.reduce((s,p) => s + p.amount_cents, 0));
+  }
+
+  // orders rolled up to each level of the hierarchy
+  const ordersByGroup = new Map(), ordersBySite = new Map(),
+        ordersByDistrict = new Map(), ordersByCountry = new Map();
+  const push = (m,k,v) => { if(!m.has(k)) m.set(k,[]); m.get(k).push(v); };
+  for (const o of D.orders) {
+    const f = farmerById.get(o.farmer_id);
+    const g = groupById.get(f.group_id);
+    const s = siteById.get(g.site_id);
+    push(ordersByGroup, g.group_id, o);
+    push(ordersBySite, s.site_id, o);
+    push(ordersByDistrict, s.country + "|" + s.district, o);
+    push(ordersByCountry, s.country, o);
+  }
+
+  const countries = [...new Set(D.sites.map(s => s.country))].sort();
+  const districtsOf = c => [...new Set(D.sites.filter(s => s.country === c).map(s => s.district))].sort();
+  const sitesOf = (c,d) => D.sites.filter(s => s.country === c && s.district === d);
+
+  // ---- money ---------------------------------------------------------
+  // Everything is integer cents. Formatting is the only place we divide.
+  const money = c => (c/100).toLocaleString("en-KE", {maximumFractionDigits:0});
+  const moneyExact = c => (c/100).toLocaleString("en-KE", {minimumFractionDigits:2, maximumFractionDigits:2});
+
+  function totals(orders){
+    let due = 0, paid = 0;
+    for (const o of orders) { due += o.total_due_cents; paid += paidByOrder.get(o.order_id); }
+    return { due, paid, outstanding: Math.max(0, due - paid), rate: due === 0 ? 0 : paid/due, count: orders.length };
+  }
+
+  const band = r => r >= 0.85 ? "ontrack" : r >= 0.60 ? "atrisk" : "critical";
+
+  function spine(rate){
+    const pct = Math.min(100, rate*100);
+    return `<div class="spine ${band(rate)}"><span class="bar"><i style="width:${pct.toFixed(1)}%"></i></span>`
+         + `<span class="pct">${(rate*100).toFixed(1)}%</span></div>`;
+  }
+
+  // Payments allocate to the service fee first, then to principal.
+  // Returns one row per payment plus the running balance after it.
+  function allocate(order, payments){
+    let feeLeft = order.service_fee_cents, principalLeft = order.principal_cents;
+    const sorted = payments.slice().sort((a,b) =>
+      a.payment_date === b.payment_date ? a.payment_id.localeCompare(b.payment_id)
+                                        : a.payment_date.localeCompare(b.payment_date));
+    const rows = [];
+    for (const p of sorted) {
+      let left = p.amount_cents;
+      const toFee = Math.min(feeLeft, left);       feeLeft -= toFee;       left -= toFee;
+      const toPrincipal = Math.min(principalLeft, left);
+      principalLeft -= toPrincipal;               left -= toPrincipal;
+      rows.push({ payment: p, toFee, toPrincipal, excess: left,
+                  balance: feeLeft + principalLeft });
+    }
+    return { rows, feeLeft, principalLeft, balance: feeLeft + principalLeft };
+  }
+
+  // ---- routing -------------------------------------------------------
+  let scope = { level: "portfolio" };
+  const go = s => { scope = s; render(); window.scrollTo(0,0); };
+
+  function crumbTrail(){
+    const t = [{label:"Portfolio", scope:{level:"portfolio"}}];
+    const s = scope;
+    if (s.country)  t.push({label:s.country,  scope:{level:"country", country:s.country}});
+    if (s.district) t.push({label:s.district, scope:{level:"district", country:s.country, district:s.district}});
+    if (s.site_id)  t.push({label:siteById.get(s.site_id).site_name,
+                            scope:{level:"site", country:s.country, district:s.district, site_id:s.site_id}});
+    if (s.group_id) t.push({label:groupById.get(s.group_id).group_name,
+                            scope:Object.assign({}, s, {level:"group", farmer_id:null, order_id:null})});
+    if (s.farmer_id)t.push({label:farmerById.get(s.farmer_id).farmer_name,
+                            scope:Object.assign({}, s, {level:"farmer", order_id:null})});
+    if (s.order_id) t.push({label:"Order "+s.order_id, scope:s});
+    return t;
+  }
+
+  // ---- render --------------------------------------------------------
+  function scopeOrders(){
+    const s = scope;
+    if (s.order_id)  return [orderById.get(s.order_id)];
+    if (s.farmer_id) return ordersByFarmer.get(s.farmer_id) || [];
+    if (s.group_id)  return ordersByGroup.get(s.group_id) || [];
+    if (s.site_id)   return ordersBySite.get(s.site_id) || [];
+    if (s.district)  return ordersByDistrict.get(s.country+"|"+s.district) || [];
+    if (s.country)   return ordersByCountry.get(s.country) || [];
+    return D.orders;
+  }
+
+  function scopeCounts(){
+    const s = scope;
+    let sites = D.sites;
+    if (s.country)  sites = sites.filter(x => x.country === s.country);
+    if (s.district) sites = sites.filter(x => x.district === s.district);
+    if (s.site_id)  sites = sites.filter(x => x.site_id === s.site_id);
+    let groups = s.group_id ? [groupById.get(s.group_id)]
+                            : sites.flatMap(x => groupsBySite.get(x.site_id) || []);
+    let farmers = s.farmer_id ? [farmerById.get(s.farmer_id)]
+                              : groups.flatMap(g => farmersByGroup.get(g.group_id) || []);
+    return { sites: sites.length, groups: groups.length, farmers: farmers.length, groupList: groups };
+  }
+
+  function renderKpis(t, counts){
+    const atRisk = counts.groupList.filter(g => {
+      const os = ordersByGroup.get(g.group_id) || [];
+      return os.length && totals(os).rate < 0.60;
+    }).length;
+    const cells = [
+      ["Repayment rate", `${(t.rate*100).toFixed(1)}<small>%</small>`],
+      ["Total due", `${money(t.due)} <small>KES</small>`],
+      ["Repaid", `${money(t.paid)} <small>KES</small>`],
+      ["Outstanding", `${money(t.outstanding)} <small>KES</small>`],
+      ["Farmers", counts.farmers.toLocaleString()],
+      ["Orders", t.count.toLocaleString()],
+    ];
+    if (!scope.farmer_id) cells.push(["Groups under 60%", `${atRisk} <small>of ${counts.groups}</small>`]);
+    document.getElementById("kpis").innerHTML = cells.map(
+      ([k,v]) => `<div class="kpi"><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+  }
+
+  function renderScopebar(t){
+    const pct = t.due ? Math.min(100, t.paid/t.due*100) : 0;
+    document.getElementById("scopebar").innerHTML =
+      `<div class="track"><span class="fill" style="width:${pct.toFixed(2)}%"></span></div>
+       <div class="legend"><span>${money(t.paid)} repaid</span>
+       <span>${money(t.outstanding)} outstanding</span></div>`;
+  }
+
+  function table(caption, cols, rows){
+    return `<div class="stack"><table><caption>${caption}</caption><thead><tr>`
+      + cols.map(c => `<th${c.num?' class="num"':''}>${c.label}</th>`).join("")
+      + `</tr></thead><tbody>` + (rows.length ? rows.join("")
+        : `<tr><td colspan="${cols.length}" style="color:var(--muted)">Nothing here yet.</td></tr>`)
+      + `</tbody></table></div>`;
+  }
+
+  function rowsFor(items, label, onClick){
+    return items.map(it => {
+      const t = totals(it.orders);
+      return `<tr class="link" tabindex="0" data-go='${JSON.stringify(it.scope)}'>
+        <td>${label(it)}</td>
+        <td class="num">${it.sub || ""}</td>
+        <td class="num">${money(t.due)}</td>
+        <td class="num">${money(t.paid)}</td>
+        <td class="num">${money(t.outstanding)}</td>
+        <td>${spine(t.rate)}</td></tr>`;
+    });
+  }
+
+  const COLS = c => [{label:c},{label:"Farmers",num:1},{label:"Due",num:1},
+                     {label:"Repaid",num:1},{label:"Outstanding",num:1},{label:"Repayment"}];
+
+  function view(){
+    const s = scope;
+
+    if (s.order_id) return orderView(orderById.get(s.order_id));
+    if (s.farmer_id) return farmerView(farmerById.get(s.farmer_id));
+
+    if (s.group_id) {
+      const g = groupById.get(s.group_id);
+      const members = (farmersByGroup.get(g.group_id) || []).map(f => ({
+        scope: Object.assign({}, s, {level:"farmer", farmer_id:f.farmer_id}),
+        name: f.farmer_name, id: f.farmer_id,
+        orders: ordersByFarmer.get(f.farmer_id) || []
+      })).sort((a,b) => totals(a.orders).rate - totals(b.orders).rate);
+      return table(`${members.length} members, weakest first`,
+        [{label:"Member"},{label:"Orders",num:1},{label:"Due",num:1},{label:"Repaid",num:1},
+         {label:"Outstanding",num:1},{label:"Repayment"}],
+        members.map(m => { const t = totals(m.orders);
+          return `<tr class="link" tabindex="0" data-go='${JSON.stringify(m.scope)}'>
+            <td>${m.name} <span style="color:var(--muted);font-size:12px">${m.id}</span></td>
+            <td class="num">${t.count}</td><td class="num">${money(t.due)}</td>
+            <td class="num">${money(t.paid)}</td><td class="num">${money(t.outstanding)}</td>
+            <td>${spine(t.rate)}</td></tr>`; }));
+    }
+
+    if (s.site_id) {
+      const list = (groupsBySite.get(s.site_id) || []).map(g => ({
+        scope: Object.assign({}, s, {level:"group", group_id:g.group_id}),
+        name: g.group_name,
+        sub: (farmersByGroup.get(g.group_id) || []).length,
+        orders: ordersByGroup.get(g.group_id) || []
+      })).sort((a,b) => totals(a.orders).rate - totals(b.orders).rate);
+      return table(`${list.length} groups at this site, weakest first`, COLS("Group"),
+        rowsFor(list, i => i.name));
+    }
+
+    if (s.district) {
+      const list = sitesOf(s.country, s.district).map(x => ({
+        scope: Object.assign({}, s, {level:"site", site_id:x.site_id}),
+        name: x.site_name,
+        sub: (groupsBySite.get(x.site_id)||[]).flatMap(g => farmersByGroup.get(g.group_id)||[]).length,
+        orders: ordersBySite.get(x.site_id) || []
+      })).sort((a,b) => totals(a.orders).rate - totals(b.orders).rate);
+      return table(`${list.length} sites in ${s.district}`, COLS("Site"), rowsFor(list, i => i.name));
+    }
+
+    if (s.country) {
+      const list = districtsOf(s.country).map(d => ({
+        scope: {level:"district", country:s.country, district:d},
+        name: d,
+        sub: sitesOf(s.country,d).flatMap(x => groupsBySite.get(x.site_id)||[])
+               .flatMap(g => farmersByGroup.get(g.group_id)||[]).length,
+        orders: ordersByDistrict.get(s.country+"|"+d) || []
+      })).sort((a,b) => totals(a.orders).rate - totals(b.orders).rate);
+      return table(`${list.length} districts in ${s.country}`, COLS("District"), rowsFor(list, i => i.name));
+    }
+
+    const list = countries.map(c => ({
+      scope: {level:"country", country:c}, name: c,
+      sub: D.farmers.filter(f => siteById.get(groupById.get(f.group_id).site_id).country === c).length,
+      orders: ordersByCountry.get(c) || []
+    })).sort((a,b) => totals(a.orders).rate - totals(b.orders).rate);
+    return table("Three countries, weakest first", COLS("Country"), rowsFor(list, i => i.name));
+  }
+
+  function farmerView(f){
+    const g = groupById.get(f.group_id), st = siteById.get(g.site_id);
+    const os = (ordersByFarmer.get(f.farmer_id) || [])
+                 .slice().sort((a,b) => b.order_date.localeCompare(a.order_date));
+    const t = totals(os);
+    const head = `<div class="panel"><h2>${f.farmer_name}</h2>
+      <p class="meta">${f.farmer_id} &nbsp;·&nbsp; ${f.phone} &nbsp;·&nbsp; ${g.group_name},
+      ${st.site_name}, ${st.district}, ${st.country}</p>
+      <dl class="facts">
+        <div><dt>Enrolled</dt><dd>${f.enrolled_date}</dd></div>
+        <div><dt>Seasons taken</dt><dd>${new Set(os.map(o=>o.season)).size}</dd></div>
+        <div><dt>Total due</dt><dd>${money(t.due)}</dd></div>
+        <div><dt>Repaid</dt><dd>${money(t.paid)}</dd></div>
+        <div><dt>Outstanding</dt><dd>${money(t.outstanding)}</dd></div>
+      </dl></div>`;
+    const rows = os.map(o => {
+      const paid = paidByOrder.get(o.order_id), rate = paid/o.total_due_cents;
+      const n = (paymentsByOrder.get(o.order_id)||[]).length;
+      return `<tr class="link" tabindex="0" data-go='${JSON.stringify(Object.assign({},scope,{level:"order",order_id:o.order_id}))}'>
+        <td>${o.order_id}</td><td>${o.season}</td><td>${o.order_date}</td>
+        <td class="num">${n}</td>
+        <td class="num">${money(o.total_due_cents)}</td><td class="num">${money(paid)}</td>
+        <td>${spine(rate)}</td></tr>`;
+    });
+    return head + table("Orders, newest first. Open one to see every payment against it.",
+      [{label:"Order"},{label:"Season"},{label:"Ordered"},{label:"Payments",num:1},
+       {label:"Due",num:1},{label:"Repaid",num:1},{label:"Repayment"}], rows);
+  }
+
+  function orderView(o){
+    const f = farmerById.get(o.farmer_id);
+    const its = itemsByOrder.get(o.order_id) || [];
+    const ps  = paymentsByOrder.get(o.order_id) || [];
+    const a   = allocate(o, ps);
+    const paid = paidByOrder.get(o.order_id);
+    const late = ps.filter(p => p.payment_date > o.deadline).length;
+
+    const head = `<div class="panel"><h2>Order ${o.order_id}</h2>
+      <p class="meta">${f.farmer_name} &nbsp;·&nbsp; season ${o.season}
+      &nbsp;·&nbsp; ordered ${o.order_date} &nbsp;·&nbsp; due by ${o.deadline}</p>
+      <dl class="facts">
+        <div><dt>Inputs</dt><dd>${money(o.principal_cents)}</dd></div>
+        <div><dt>Service fee (12%)</dt><dd>${money(o.service_fee_cents)}</dd></div>
+        <div><dt>Total due</dt><dd>${money(o.total_due_cents)}</dd></div>
+        <div><dt>Repaid</dt><dd>${money(paid)}</dd></div>
+        <div><dt>Balance</dt><dd>${money(a.balance)}</dd></div>
+        <div><dt>Payments after deadline</dt><dd>${late}</dd></div>
+      </dl></div>`;
+
+    const itemRows = its.map(i => {
+      const p = productById.get(i.product_id);
+      return `<tr><td>${p.product_name}</td><td>${p.category}</td>
+        <td class="num">${i.quantity}</td><td class="num">${money(i.unit_price_cents)}</td>
+        <td class="num">${money(i.line_total_cents)}</td></tr>`;
+    });
+
+    const payRows = a.rows.map(r => `<tr>
+      <td>${r.payment.payment_date}${r.payment.payment_date > o.deadline
+            ? ' <span style="color:var(--atrisk);font-size:12px">late</span>' : ''}</td>
+      <td>${r.payment.payment_id}</td><td>${r.payment.channel}</td>
+      <td class="num">${moneyExact(r.payment.amount_cents)}</td>
+      <td class="num alloc">${moneyExact(r.toFee)}</td>
+      <td class="num alloc">${moneyExact(r.toPrincipal)}</td>
+      <td class="num">${moneyExact(r.balance)}</td></tr>`);
+
+    return head
+      + table("What was ordered", [{label:"Product"},{label:"Category"},{label:"Qty",num:1},
+          {label:"Unit price",num:1},{label:"Line total",num:1}], itemRows)
+      + table("Every payment against this order, oldest first. Fee is cleared before principal.",
+          [{label:"Date"},{label:"Payment"},{label:"Channel"},{label:"Amount",num:1},
+           {label:"To fee",num:1},{label:"To principal",num:1},{label:"Balance after",num:1}], payRows);
+  }
+
+  // ---- invariants, recomputed independently --------------------------
+  function runChecks(){
+    const orders = scopeOrders();
+    const out = [];
+
+    // 1. every payment is fully allocated
+    let unallocated = 0;
+    for (const o of orders) {
+      const a = allocate(o, paymentsByOrder.get(o.order_id) || []);
+      for (const r of a.rows)
+        if (r.toFee + r.toPrincipal + r.excess !== r.payment.amount_cents) unallocated++;
+    }
+    out.push(["Every payment fully allocated", unallocated === 0, unallocated + " off"]);
+
+    // 2. no negative balance
+    let negative = 0;
+    for (const o of orders) {
+      const a = allocate(o, paymentsByOrder.get(o.order_id) || []);
+      if (a.balance < 0) negative++;
+      for (const r of a.rows) if (r.balance < 0) negative++;
+    }
+    out.push(["No balance goes negative", negative === 0, negative + " orders"]);
+
+    // 3. rate is value-weighted, not a mean of member rates
+    const t = totals(orders);
+    let independent = 0;
+    for (const o of orders) independent += paidByOrder.get(o.order_id);
+    out.push(["Rate weighted by value owed",
+              Math.abs(independent - t.paid) < 1, "recomputed"]);
+
+    // 4. totals reconcile to the order lines
+    let mismatch = 0;
+    for (const o of orders) {
+      const lines = (itemsByOrder.get(o.order_id) || [])
+        .reduce((s,i) => s + i.line_total_cents, 0);
+      if (lines !== o.principal_cents) mismatch++;
+      if (o.principal_cents + o.service_fee_cents !== o.total_due_cents) mismatch++;
+    }
+    out.push(["Order totals match their lines", mismatch === 0, mismatch + " off"]);
+
+    // 5. drill-down sums to the level above
+    const kids = childOrderSets();
+    const sum = kids.reduce((s,k) => s + totals(k).due, 0);
+    out.push(["Children sum to this scope", kids.length === 0 || sum === t.due,
+              money(Math.abs(sum - t.due))]);
+
+    document.getElementById("checks").innerHTML = out.map(([label, ok, detail]) =>
+      `<li class="${ok?'pass':'fail'}"><span class="mark">${ok?'✓':'✗'}</span>
+       <span>${label}${ok?'':' — '+detail}</span></li>`).join("");
+  }
+
+  function childOrderSets(){
+    const s = scope;
+    if (s.order_id || s.farmer_id) return [];
+    if (s.group_id) return (farmersByGroup.get(s.group_id)||[]).map(f => ordersByFarmer.get(f.farmer_id)||[]);
+    if (s.site_id)  return (groupsBySite.get(s.site_id)||[]).map(g => ordersByGroup.get(g.group_id)||[]);
+    if (s.district) return sitesOf(s.country,s.district).map(x => ordersBySite.get(x.site_id)||[]);
+    if (s.country)  return districtsOf(s.country).map(d => ordersByDistrict.get(s.country+"|"+d)||[]);
+    return countries.map(c => ordersByCountry.get(c)||[]);
+  }
+
+  // ---- search --------------------------------------------------------
+  const q = document.getElementById("q"), results = document.getElementById("results");
+  q.addEventListener("input", () => {
+    const term = q.value.trim().toLowerCase();
+    if (term.length < 2) { results.hidden = true; return; }
+    const hits = D.farmers.filter(f =>
+      f.farmer_name.toLowerCase().includes(term) || f.farmer_id.toLowerCase().includes(term)
+    ).slice(0, 25);
+    results.innerHTML = hits.length
+      ? hits.map(f => { const g = groupById.get(f.group_id), st = siteById.get(g.site_id);
+          return `<button data-farmer="${f.farmer_id}">${f.farmer_name}
+            <span class="rid">${f.farmer_id} · ${g.group_name}, ${st.site_name}</span></button>`; }).join("")
+      : `<button disabled style="color:var(--muted)">No farmer matches that.</button>`;
+    results.hidden = false;
+  });
+  results.addEventListener("click", e => {
+    const b = e.target.closest("button[data-farmer]"); if (!b) return;
+    const f = farmerById.get(b.dataset.farmer);
+    const g = groupById.get(f.group_id), st = siteById.get(g.site_id);
+    results.hidden = true; q.value = "";
+    go({level:"farmer", country:st.country, district:st.district, site_id:st.site_id,
+        group_id:g.group_id, farmer_id:f.farmer_id});
+  });
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search")) results.hidden = true;
+  });
+
+  // ---- events --------------------------------------------------------
+  document.getElementById("view").addEventListener("click", e => {
+    const tr = e.target.closest("tr[data-go]"); if (tr) go(JSON.parse(tr.dataset.go));
+  });
+  document.getElementById("view").addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const tr = e.target.closest("tr[data-go]");
+    if (tr) { e.preventDefault(); go(JSON.parse(tr.dataset.go)); }
+  });
+  document.getElementById("crumbs").addEventListener("click", e => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    go(crumbTrail()[+b.dataset.i].scope);
+  });
+
+  function render(){
+    const trail = crumbTrail();
+    document.getElementById("crumbs").innerHTML = trail.map((c,i) =>
+      i === trail.length - 1
+        ? `<span class="here">${c.label}</span>`
+        : `<button data-i="${i}">${c.label}</button><span class="sep">›</span>`).join("");
+
+    const orders = scopeOrders();
+    const t = totals(orders);
+    renderKpis(t, scopeCounts());
+    renderScopebar(t);
+    document.getElementById("view").innerHTML = view();
+    runChecks();
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

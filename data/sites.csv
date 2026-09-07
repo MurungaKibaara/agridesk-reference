@@ -1,0 +1,42 @@
+site_id,site_name,district,country,country_code
+S-001,Shitoli,Kakamega,Kenya,KE
+S-002,Kimilili,Kakamega,Kenya,KE
+S-003,Rwimbogo,Kakamega,Kenya,KE
+S-004,Wamono,Kakamega,Kenya,KE
+S-005,Ikoba,Kakamega,Kenya,KE
+S-006,Rugeshi,Bungoma,Kenya,KE
+S-007,Buyofu,Bungoma,Kenya,KE
+S-008,Mukura,Bungoma,Kenya,KE
+S-009,Sirisia,Bungoma,Kenya,KE
+S-010,Gataraga,Trans Nzoia,Kenya,KE
+S-011,Karama,Trans Nzoia,Kenya,KE
+S-012,Sipi,Trans Nzoia,Kenya,KE
+S-013,Kwanza,Trans Nzoia,Kenya,KE
+S-014,Namanjalala,Siaya,Kenya,KE
+S-015,Mukuyu,Siaya,Kenya,KE
+S-016,Chebukwa,Siaya,Kenya,KE
+S-017,Lusala,Siaya,Kenya,KE
+S-018,Bufumbo,Siaya,Kenya,KE
+S-019,Kisoko,Musanze,Rwanda,RW
+S-020,Kaserem,Musanze,Rwanda,RW
+S-021,Kamu,Musanze,Rwanda,RW
+S-022,Sango,Musanze,Rwanda,RW
+S-023,Bukembe,Musanze,Rwanda,RW
+S-024,Chema,Nyagatare,Rwanda,RW
+S-025,Kinigi,Nyagatare,Rwanda,RW
+S-026,Tande,Nyagatare,Rwanda,RW
+S-027,Bunambutye,Nyagatare,Rwanda,RW
+S-028,Kibisi,Huye,Rwanda,RW
+S-029,Cyanika,Huye,Rwanda,RW
+S-030,Busiu,Huye,Rwanda,RW
+S-031,Malaba,Huye,Rwanda,RW
+S-032,Endebess,Mbale,Uganda,UG
+S-033,Gitovu,Mbale,Uganda,UG
+S-034,Mulanda,Mbale,Uganda,UG
+S-035,Naboa,Kapchorwa,Uganda,UG
+S-036,Namwela,Kapchorwa,Uganda,UG
+S-037,Rubaya,Kapchorwa,Uganda,UG
+S-038,Nzoia,Kapchorwa,Uganda,UG
+S-039,Nagongera,Tororo,Uganda,UG
+S-040,Nakaloke,Tororo,Uganda,UG
+S-041,Shitoli,Tororo,Uganda,UG
